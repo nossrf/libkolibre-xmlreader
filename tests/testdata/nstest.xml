@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE checkbook SYSTEM "checkbook.dtd">
+<checkbook xmlns:f="http://schemas.ar-ent.net/soap/file/"
+xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:m="http://schemas.ar-ent.net/test/soap.tr/checkbook/"
+xmlns:ars="http://schemas.ar-ent.net/soap/">
+<f:deposit type="direct-deposit">
+<payor>Bob's Bolts</payor>
+<amount>987.32</amount>
+<date>21-6-00</date>
+<description category="income">Paycheck</description>
+</f:deposit>
+</checkbook>
