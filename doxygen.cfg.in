@@ -581,8 +581,16 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = $(SRCDIR)
-
+INPUT                  = $(SRCDIR)/src/XmlReader.h \
+                         $(SRCDIR)/src/XmlReader.cpp \
+                         $(SRCDIR)/src/XmlError.h \
+                         $(SRCDIR)/src/XmlDefaultHandler.h \
+                         $(SRCDIR)/src/XmlDefaultHandler.cpp \
+                         $(SRCDIR)/src/XmlAttributes.h \
+                         $(SRCDIR)/src/XmlAttributes.cpp \
+                         $(SRCDIR)/src/InputStream.h \
+                         $(SRCDIR)/src/DataStreamHandler.h \
+                         $(SRCDIR)/src/DataStreamHandler.cpp
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -611,8 +619,7 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = config.h tests/ src/CacheObject.cpp src/DataSource.cpp src/FileStream.cpp src/HttpStream.cpp src/TidyStream.cpp src/CacheObject.h src/DataSource.h src/FileStream.h src/HttpStream.h src/TidyStream.h src/XmlInputSource.h
-
+EXCLUDE                =
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix filesystem feature) are excluded
