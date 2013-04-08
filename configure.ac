@@ -81,11 +81,7 @@ dnl -----------------------------------------------
 dnl check for log4cxx
 dnl -----------------------------------------------
 
-PKG_CHECK_MODULES(LOG4CXX, liblog4cxx >= 0.10.0, HAVE_LOG4CXX=yes, HAVE_LOG4CXX=no)
-
-if (test "x$HAVE_LOG4CXX" = "xno") then
-    AC_MSG_ERROR([**liblog4cxx >= 0.10.0 is needed to build libkolibre-narrator **])
-fi
+PKG_CHECK_MODULES(LOG4CXX, liblog4cxx >= 0.10.0)
 
 AC_SUBST(LOG4CXX_CFLAGS)
 AC_SUBST(LOG4CXX_LIBS)
@@ -93,23 +89,17 @@ AC_SUBST(LOG4CXX_LIBS)
 dnl -----------------------------------------------
 dnl check for Libcurl
 dnl -----------------------------------------------
-PKG_CHECK_MODULES(LIBCURL, libcurl >= 7.17.1, HAVE_LIBCURL=yes, HAVE_LIBCURL=no)
+
+PKG_CHECK_MODULES(LIBCURL, libcurl >= 7.17.1)
 
 AC_SUBST(LIBCURL_CFLAGS)
 AC_SUBST(LIBCURL_LIBS)
 
-if (test "x$HAVE_LIBCURL" = "xno") then
-  AC_MSG_ERROR([**libcurl >= 7.17.1 is needed to build libkolibre-xmlreader **])
-fi
-
 dnl -----------------------------------------------
 dnl Check for libxml2
 dnl -----------------------------------------------
-PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= 2.6.23, HAVE_LIBXML2=yes, HAVE_LIBXML2=no)
-if test "x$HAVE_LIBXML2" = "xno"
-then
-  AC_MSG_ERROR([**libxml2 >= 2.6.23 is needed to build libkolibre-xmlreader **])
-fi
+
+PKG_CHECK_MODULES(LIBXML2, libxml-2.0 >= 2.6.23)
 
 AC_SUBST(LIBXML2_LIBS)
 AC_SUBST(LIBXML2_CFLAGS)
