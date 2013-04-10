@@ -88,7 +88,7 @@ static void startElementHandler(void *userData, const xmlChar *name,
 {
     XmlReader *reader = static_cast<XmlReader *>(userData);
 
-    LOG4CXX_DEBUG(xmlXmlReaderLog, "startElementHandler() for " << name);
+    LOG4CXX_TRACE(xmlXmlReaderLog, "startElementHandler() for " << name);
 
     if (reader->parserStopped())
     {
@@ -134,7 +134,7 @@ static void endElementHandler(void *userData, const xmlChar *name)
         return;
     }
 
-    LOG4CXX_DEBUG(xmlXmlReaderLog, "endElementHandler() for " << name);
+    LOG4CXX_TRACE(xmlXmlReaderLog, "endElementHandler() for " << name);
 
     const xmlChar *qName = name;
     xmlChar *localName = NULL;
