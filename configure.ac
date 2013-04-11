@@ -159,7 +159,6 @@ AC_FUNC_REALLOC
 AC_CHECK_FUNCS([memset select strdup strerror strstr])
 
 AC_CONFIG_FILES([Makefile
-                 doxygen.cfg
                  src/Makefile
                  libkolibre-xmlreader.pc
                  tests/Makefile
