@@ -131,3 +131,5 @@ declaration and thus work normally.
 The bug has been reported to the libxml2 community along with a patch. Visit
 https://bugzilla.gnome.org/show_bug.cgi?id=684201 to check the status of the bug
 or download the patch.
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/ce0d05dbc4d136dfef94828b1edf0489 "githalytics.com")](http://githalytics.com/github.com/kolibre)
