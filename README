@@ -10,18 +10,23 @@ individuals around the innovative development of custom information systems for
 people with different needs. More information about Kolibres activities, association 
 membership and contact information can be found at http://www.kolibre.org/
 
+What is libkolibre-xmlreader?
+---------------------------------
+libkolibre-xmlreader is a library for fetching and parsing XML data. 
+It is a SAX wrapper library for libxml2. The library can load XML/XHTML/HTML-
+documents from disk or http. A caching function is built in to speed up re-parsing 
+of previous XML documents. It also has an optional dependency on libtidy, which 
+can be used as a fallback for cleaning up messy and malformed XML files. 
+These features makes the usage of xmlreader simple, fast and reliable.
+
+Documentation
+---------------------------------
 Kolibre client developer documentation is available at 
 https://github.com/kolibre/libkolibre-builder/wiki
 
-What is Kolibre-xmlreader?
----------------------------------
-Kolibre-xmlreader is a library for fetching and parsing XML data. Kolibre-
-xmlreader is a SAX wrapper library for libxml2 and can load 
-XML/XHTML/HTML documents from disk or http. A caching function is built in to 
-speed up re-parsing of previous XML documents. Kolibre-xmlreader also has an 
-optional dependency on libtidy, that can be used as a fallback for cleaning 
-up messy and malformed XML files. These features makes the usage of xmlreader 
-simple, fast and reliable.
+This library is documented using doxygen.
+
+Type ./configure && make doxygen-doc to generate documentation.
 
 Platforms
 ---------------------------------
@@ -51,12 +56,6 @@ $ make
 $ make install
 
 see INSTALL for detailed instructions.
-
-Documentation
----------------------------------
-This library is documented using doxygen.
-
-Type ./configure && make doxygen-doc to generate documentation.
 
 Known issues
 ---------------------------------
