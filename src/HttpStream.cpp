@@ -74,7 +74,7 @@ HttpStream::~HttpStream()
             cacheObject->resetState();
             DataStreamHandler::Instance()->addCacheObject(sURL, cacheObject);
         }
-        else if (bStreamFromCache)
+        else if (bUseCache && bStreamFromCache)
         {
             //LOG4CXX_DEBUG(xmlHttpStreamLog, "Resetting cacheObject " << sURL);
             cacheObject->resetState();
@@ -107,7 +107,7 @@ bool HttpStream::setupConnection(CacheObject *pCache)
 
     fLocation = NULL;
 
-    if (USE_CACHE)
+    if (USE_CACHE && bUseCache)
     {
         if (pCache == NULL)
         {
@@ -265,7 +265,7 @@ size_t HttpStream::headerCallback(char *buffer, size_t size, size_t nitems)
         {
             memcpy(hEtag, bufPtr, dataSize);
             memset(hEtag + dataSize, 0, 1);
-            if (USE_CACHE)
+            if (USE_CACHE && bUseCache)
                 cacheObject->setEtag(hEtag);
             //LOG4CXX_DEBUG(xmlHttpStreamLog, "Got etag len: " << dataSize << " '" << hEtag << "'");
             free(hEtag);
@@ -286,7 +286,7 @@ size_t HttpStream::headerCallback(char *buffer, size_t size, size_t nitems)
         {
             memcpy(hLast_modified, bufPtr, dataSize);
             memset(hLast_modified + dataSize, 0, 1);
-            if (USE_CACHE)
+            if (USE_CACHE && bUseCache)
                 cacheObject->setLastModified(hLast_modified);
             //LOG4CXX_DEBUG(xmlHttpStreamLog, "Got last_modified len: " << dataSize << " '" << hLast_modified << "'");
             free(hLast_modified);
@@ -307,7 +307,7 @@ size_t HttpStream::headerCallback(char *buffer, size_t size, size_t nitems)
         {
             memcpy(hLocation, bufPtr, dataSize);
             memset(hLocation + dataSize, 0, 1);
-            if (USE_CACHE)
+            if (USE_CACHE && bUseCache)
                 cacheObject->setLocation(hLocation);
             if (fLocation != NULL)
                 free(fLocation);
@@ -430,7 +430,7 @@ size_t HttpStream::writeCallback(char *buffer, size_t size, size_t nitems)
 
     // If we got a 200 response code, compress the blocks recieved and
     // store the the contents in zBuffer
-    if (USE_CACHE && bStoreCache)
+    if (USE_CACHE && bUseCache && bStoreCache)
     {
         cacheObject->writeBytes(buffer, size * nitems);
     }
@@ -667,14 +667,14 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 case 0:
                 case 200:
                     // Tell the destructor to store the cache entry since everything is ok
-                    if (USE_CACHE)
+                    if (USE_CACHE && bUseCache)
                         cacheObject->setHttpCode(httpcode);
                     tryAgain = false;
                     break;
 
                 case 301:
                 case 302:
-                    if (USE_CACHE)
+                    if (USE_CACHE && bUseCache)
                         cacheObject->setHttpCode(httpcode);
                     if (fLocation != NULL)
                     {
@@ -688,7 +688,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
 
                         resetBuffer();
                         CacheObject *pCache = NULL;
-                        if (USE_CACHE)
+                        if (USE_CACHE && bUseCache)
                             pCache =
                                     DataStreamHandler::Instance()->getCacheObject(
                                             sURL);
@@ -856,7 +856,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
     }
 
     // If we are done with the CURL part, start streaming from cache in case we got a 304 response
-    if (USE_CACHE && bStreamFromCache)
+    if (USE_CACHE && bUseCache && bStreamFromCache)
     {
         //LOG4CXX_DEBUG(xmlHttpStreamLog, "Trying to read " << fBytesToRead << " bytes from cache for " << sURL);
 

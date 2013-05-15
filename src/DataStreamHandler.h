@@ -57,7 +57,7 @@ public:
     void DestroyInstance();
     ~DataStreamHandler();
 
-    InputStream* newStream(std::string url, bool tidy = false);
+    InputStream* newStream(std::string url, bool tidy = false, bool useCache = true);
 
     void setUseragent(std::string useragent); // Useragent string to use
     void setTimeout(unsigned int timeout); // Timeout in seconds

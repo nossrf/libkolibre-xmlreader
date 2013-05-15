@@ -201,8 +201,9 @@ void DataStreamHandler::setDebugmode(bool setting)
  *
  * @param url the url for the online resource
  * @param tidy parse the resource with libtidy
+ * @param useCache store resouce in cache
  */
-InputStream* DataStreamHandler::newStream(std::string url, bool tidy)
+InputStream* DataStreamHandler::newStream(std::string url, bool tidy, bool useCache)
 {
     // cacheobject for this URL
     CacheObject *cacheObject = NULL;
@@ -252,13 +253,14 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy)
         }
 
         // Check to see if we have a cached item for this URL
-        if (USE_CACHE)
+        if (USE_CACHE && useCache)
         {
             cacheObject = getCacheObject(url);
         }
 
         HttpStream *newStream = NULL;
         newStream = new HttpStream(url, fEasy, fMulti, cacheObject);
+        newStream->useCache(useCache);
 
         // Add easy handle to the multi stack
         curl_multi_add_handle(fMulti, fEasy);
@@ -272,7 +274,7 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy)
     else
     {
         // Check to see if we have a cached item for this URL
-        if (USE_CACHE)
+        if (USE_CACHE && useCache)
         {
             cacheObject = getCacheObject(url);
         }
@@ -280,6 +282,7 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy)
         // Create a filestream
         FileStream *newStream = NULL;
         newStream = new FileStream(url, cacheObject);
+        newStream->useCache(useCache);
 #ifdef HAVE_LIBTIDY
         if (tidy)
             return new TidyStream(url, newStream);
