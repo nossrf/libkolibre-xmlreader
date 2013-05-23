@@ -224,6 +224,8 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy, bool useCa
             // Set timeout and useragent strings in case they have changed
             curl_easy_setopt(fEasy, CURLOPT_USERAGENT, mUseragent.c_str());
             curl_easy_setopt(fEasy, CURLOPT_CONNECTTIMEOUT, mTimeout);
+            curl_easy_setopt(fEasy, CURLOPT_LOW_SPEED_LIMIT, 1000);
+            curl_easy_setopt(fEasy, CURLOPT_LOW_SPEED_TIME, mTimeout);
             if (bDebugmode)
                 curl_easy_setopt(fEasy, CURLOPT_VERBOSE, true);
             else
@@ -247,6 +249,8 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy, bool useCa
 
             curl_easy_setopt(fEasy, CURLOPT_USERAGENT, mUseragent.c_str());
             curl_easy_setopt(fEasy, CURLOPT_CONNECTTIMEOUT, mTimeout);
+            curl_easy_setopt(fEasy, CURLOPT_LOW_SPEED_LIMIT, 1000);
+            curl_easy_setopt(fEasy, CURLOPT_LOW_SPEED_TIME, mTimeout);
 
             if (bDebugmode)
                 curl_easy_setopt(fEasy, CURLOPT_VERBOSE, true);
