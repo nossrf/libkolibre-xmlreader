@@ -12,7 +12,7 @@ membership and contact information can be found at http://www.kolibre.org/
 
 What is libkolibre-xmlreader?
 ---------------------------------
-libkolibre-xmlreader is a library for fetching and parsing XML data. 
+Libkolibre-xmlreader is a library for fetching and parsing XML data. 
 It is a SAX wrapper library for libxml2. The library can load XML/XHTML/HTML-
 documents from disk or http. A caching function is built in to speed up re-parsing 
 of previous XML documents. It also has an optional dependency on libtidy, which 
@@ -30,7 +30,7 @@ Type ./configure && make doxygen-doc to generate documentation.
 
 Platforms
 ---------------------------------
-libkolibre-xmlreader has been tested with Linux Debian Squeeze and can be built
+Libkolibre-xmlreader has been tested with Linux Debian Squeeze and can be built
 using dev packages from apt repositories.
 
 Dependencies
@@ -74,12 +74,12 @@ Copyright (C) 2012 Kolibre
 
 This file is part of libkolibre-xmlreader.
 
-libkolibre-xmlreader is free software: you can redistribute it and/or modify
+Libkolibre-xmlreader is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation, either version 2.1 of the License, or
 (at your option) any later version.
 
-libkolibre-xmlreader is distributed in the hope that it will be useful,
+Libkolibre-xmlreader is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
