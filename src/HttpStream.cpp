@@ -208,33 +208,34 @@ size_t HttpStream::staticHeaderCallback(char *buffer, size_t size,
 size_t HttpStream::headerCallback(char *buffer, size_t size, size_t nitems)
 {
     char *bufPtr = NULL;
+
     size_t dataSize = 0;
 
     if (memcmp(buffer, "HTTP", 4) == 0)
     {
         bufPtr = buffer + 4;
-        for (unsigned c = 0; c < (size * nitems - 4); c++)
+        for (int c = 0; c < (size * nitems - 4); c++)
             if (memcmp(bufPtr + c, " ", 1) == 0)
             {
-                bufPtr += c;
+                char *bufPtr2 = bufPtr + c;
                 // Check that there are characters after the space
                 if (c + 4 + 4 > size * nitems)
                     break;
 
-                if (memcmp(bufPtr, " 200", 4) == 0)
+                if (memcmp(bufPtr2, " 200", 4) == 0)
                 {
                     bStoreCache = true;
                     LOG4CXX_DEBUG(xmlHttpStreamLog, sURL << " 200 OK");
                 }
-                else if (memcmp(bufPtr, " 301", 4) == 0)
+                else if (memcmp(bufPtr2, " 301", 4) == 0)
                 {
                     LOG4CXX_DEBUG(xmlHttpStreamLog, sURL << " 301 REDIRECT");
                 }
-                else if (memcmp(bufPtr, " 302", 4) == 0)
+                else if (memcmp(bufPtr2, " 302", 4) == 0)
                 {
                     LOG4CXX_DEBUG(xmlHttpStreamLog, sURL << " 302 REDIRECT");
                 }
-                else if (memcmp(bufPtr, " 304", 4) == 0)
+                else if (memcmp(bufPtr2, " 304", 4) == 0)
                 {
                     LOG4CXX_DEBUG(xmlHttpStreamLog,
                             sURL << " 304 NOT MODIFIED");
