@@ -334,6 +334,7 @@ size_t HttpStream::headerCallback(char *buffer, size_t size, size_t nitems)
             memset(tmpBuf + dataSize, 0, 1);
             hContent_length_response = atol(tmpBuf);
             //LOG4CXX_DEBUG(xmlHttpStreamLog, "Got Content-Length len: " << dataSize << " '" << tmpBuf << "' " << hContent_length_response);
+            free(tmpBuf);
         }
     }
 
@@ -629,6 +630,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
             }
             else
             {
+                free(fBuffer);
                 fBuffer = NULL;
                 fBufferSize = 0;
                 fBufferHead = 0;
