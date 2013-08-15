@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -x /usr/bin/gdb ]; then
-    PREFIX="libtool --mode=execute gdb -return-child-result -x ${srcdir:-.}/run --args"
+    PREFIX="libtool --mode=execute gdb --return-child-result -batch -x ${srcdir:-.}/run --args"
 fi
 
 $PREFIX ./parsedoctype ${srcdir:-.}/testdata/html_4.0_strict.html
