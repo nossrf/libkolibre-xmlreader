@@ -92,7 +92,12 @@ void DataStreamHandler::DestroyInstance()
 /**
  * Constrcutor
  */
-DataStreamHandler::DataStreamHandler()
+DataStreamHandler::DataStreamHandler():
+    CURL_LOCK_DATA_SHARE_MUTEX(),
+    CURL_LOCK_DATA_COOKIE_MUTEX(),
+    CURL_LOCK_DATA_DNS_MUTEX(),
+    CURL_LOCK_DATA_SSL_SESSION_MUTEX(),
+    CURL_LOCK_DATA_CONNECT_MUTEX()
 {
     // Allocate the curl multi handle
     fMulti = curl_multi_init();
