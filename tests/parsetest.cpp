@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
     bool expectSuccess = true;
     string type;
 
-    if (argc > 2) expectSuccess = false;
+    if (argc > 2 && strcmp(argv[2], "fail") == 0) expectSuccess = false;
 
     if (strstr(argv[1], ".html"))
         type = "html";
