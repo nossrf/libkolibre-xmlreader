@@ -55,14 +55,14 @@ HttpStream::HttpStream(const std::string url, CURL *curlHandle,
     mErrorCode = NONE;
 
     sURL = url;
-    LOG4CXX_DEBUG(xmlHttpStreamLog, "constructor for '" << sURL << "'");
+    LOG4CXX_TRACE(xmlHttpStreamLog, "constructor for '" << sURL << "'");
     setupConnection(pCache);
 }
 
 HttpStream::~HttpStream()
 {
-    LOG4CXX_DEBUG(xmlHttpStreamLog, "destructor for '" << sURL << "'");
-    LOG4CXX_DEBUG(xmlHttpStreamLog,
+    LOG4CXX_TRACE(xmlHttpStreamLog, "destructor for '" << sURL << "'");
+    LOG4CXX_TRACE(xmlHttpStreamLog,
             "read: " << fTotalBytesRead << " bufsize: " << fBufferSize);
     destroyConnection();
 

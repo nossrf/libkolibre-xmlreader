@@ -763,14 +763,14 @@ bool XmlReader::parse(const XmlInputSource &input)
 
     is->useCache(bUseCache);
 
-    LOG4CXX_DEBUG(xmlXmlReaderLog, "Starting parse");
+    LOG4CXX_TRACE(xmlXmlReaderLog, "Starting parse");
 
     int ret = 0;
     int bytes_read;
     bool parseByteOrderMark = true;
     do
     {
-        LOG4CXX_DEBUG(xmlXmlReaderLog,
+        LOG4CXX_TRACE(xmlXmlReaderLog,
                 "Trying to read " << bufsize << " bytes");
         try {
         bytes_read = is->readBytes(buffer, bufsize);
@@ -792,7 +792,7 @@ bool XmlReader::parse(const XmlInputSource &input)
         }
 
         if (bytes_read)
-            LOG4CXX_DEBUG(xmlXmlReaderLog, "Read " << bytes_read << " bytes");
+            LOG4CXX_TRACE(xmlXmlReaderLog, "Read " << bytes_read << " bytes");
 
         if (parseByteOrderMark && bytes_read >= 3)
         {

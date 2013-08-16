@@ -43,7 +43,7 @@ CacheObject::CacheObject(const char *url) :
     pLocation = NULL;
     lContent_length = 0;
 
-    LOG4CXX_DEBUG(xmlCacheObjLog, "constructor for " << pSrcUrl);
+    LOG4CXX_TRACE(xmlCacheObjLog, "constructor for " << pSrcUrl);
     resetState();
     resetBuffer();
 }
@@ -214,7 +214,7 @@ bool CacheObject::getTidyFlag()
 unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
 {
 
-    LOG4CXX_DEBUG(xmlCacheObjLog,
+    LOG4CXX_TRACE(xmlCacheObjLog,
             "writeBytes(const char * " << &buffer << ", const size_t " << bytes << ")");
 
     if (eState == READ || eState == FULL)
@@ -246,11 +246,11 @@ unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
     {
         c_stream.next_out = (Bytef *) c_stream_buffer;
         c_stream.avail_out = Z_CHUNK_SIZE;
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Deflate status before:" << " avail_in: " << c_stream.avail_in << " bytes," << " total_in: " << c_stream.total_in << " bytes," << " avail_out: " << c_stream.avail_out << " bytes," << " total_out: " << c_stream.total_out << " bytes");
 
         err = deflate(&c_stream, doFlush);
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Deflate status after: " << " avail_in: " << c_stream.avail_in << " bytes," << " total_in: " << c_stream.total_in << " bytes," << " avail_out: " << c_stream.avail_out << " bytes," << " total_out: " << c_stream.total_out << " bytes");
 
         if (c_stream.msg)
@@ -299,7 +299,7 @@ unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
             {
                 zBufferAllocCount++;
                 zBufferSize = zBufferAllocCount * Z_CHUNK_SIZE;
-                LOG4CXX_DEBUG(xmlCacheObjLog,
+                LOG4CXX_TRACE(xmlCacheObjLog,
                         "Reallocating zBuffer to " << zBufferSize << " bytes");
 
                 zBuffer = (char *) realloc(zBuffer, zBufferSize * sizeof(char));
@@ -313,7 +313,7 @@ unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
 
             if (compressed != 0 && (zBufferSize - zBufferPos) >= compressed)
             {
-                LOG4CXX_DEBUG(xmlCacheObjLog,
+                LOG4CXX_TRACE(xmlCacheObjLog,
                         "Copying " << compressed << " bytes to zBuffer of size " << zBufferSize << " at pos " << zBufferPos << " for " << pSrcUrl);
                 memcpy(zBuffer + zBufferPos, c_stream_buffer, compressed);
                 zBufferPos += compressed;
@@ -335,7 +335,7 @@ unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
         zBufferSize = zBufferPos;
         // Reallocate zBuffer to correct size
         zBuffer = (char *) realloc(zBuffer, zBufferSize * sizeof(char));
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Final size of zBuffer: " << zBufferSize << " for " << pSrcUrl);
         eState = FULL;
     }
@@ -346,7 +346,7 @@ unsigned int CacheObject::writeBytes(const char *buffer, const size_t bytes)
 int CacheObject::readBytes(const char *buffer, const size_t bytes)
 {
 
-    LOG4CXX_DEBUG(xmlCacheObjLog,
+    LOG4CXX_TRACE(xmlCacheObjLog,
             "readBytes(const char * " << &buffer << ", const size_t " << bytes << ")");
 
     // If the cache is empty return 0
@@ -358,7 +358,7 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
 
     if (eState == FULL)
     {
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Initializing zlib inflate for " << pSrcUrl);
         inflateInit(&c_stream);
         inflateSetDictionary(&c_stream, (const Bytef*) dictionary,
@@ -378,11 +378,11 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
         c_stream.next_out = (Bytef*) buffer;
         c_stream.avail_out = bytes;
 
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Inflate status before:" << " avail_in: " << c_stream.avail_in << " bytes," << " avail_out: " << c_stream.avail_out << " bytes");
 
         err = inflate(&c_stream, doFlush);
-        LOG4CXX_DEBUG(xmlCacheObjLog,
+        LOG4CXX_TRACE(xmlCacheObjLog,
                 "Inflate status after: " << " avail_in: " << &c_stream.avail_in << " bytes," << " avail_out: " << c_stream.avail_out << " bytes");
 
         if (&c_stream.msg)
@@ -392,7 +392,7 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
         switch (err)
         {
         case Z_NEED_DICT:
-            LOG4CXX_DEBUG(xmlCacheObjLog, "decompress error Z_NEED_DICT");
+            LOG4CXX_TRACE(xmlCacheObjLog, "decompress error Z_NEED_DICT");
             inflateSetDictionary(&c_stream, (const Bytef*) dictionary,
                     sizeof(dictionary));
             break;
@@ -417,7 +417,7 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
             return 0;
 
         case Z_STREAM_END:
-            LOG4CXX_DEBUG(xmlCacheObjLog,
+            LOG4CXX_TRACE(xmlCacheObjLog,
                     "decompress Z_STREAM_END for " << pSrcUrl);
             break;
 
@@ -426,7 +426,7 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
         }
     } while (c_stream.avail_out != 0 && c_stream.avail_in != 0);
 
-    LOG4CXX_DEBUG(xmlCacheObjLog,
+    LOG4CXX_TRACE(xmlCacheObjLog,
             "Read " << bytes - c_stream.avail_out << " bytes from zBuffer for " << pSrcUrl);
 
     return (bytes - c_stream.avail_out);

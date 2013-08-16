@@ -221,7 +221,7 @@ InputStream* DataStreamHandler::newStream(std::string url, bool tidy, bool useCa
         // If we have already allocated handles free, use one of them
         if (freeHandles.size() != 0 && USE_PIPELINEING)
         {
-            LOG4CXX_DEBUG(xmlDataStreamHlrLog, "Reusing stream for " << url);
+            LOG4CXX_TRACE(xmlDataStreamHlrLog, "Reusing stream for " << url);
 
             fEasy = freeHandles.front();
             freeHandles.pop();
@@ -483,11 +483,11 @@ void DataStreamHandler::lockCallback(CURL *handle, curl_lock_data data,
     switch (data)
     {
     case CURL_LOCK_DATA_SHARE:
-        LOG4CXX_DEBUG(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_SHARE");
+        LOG4CXX_TRACE(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_SHARE");
         pthread_mutex_lock(&CURL_LOCK_DATA_SHARE_MUTEX);
         break;
     case CURL_LOCK_DATA_COOKIE:
-        LOG4CXX_DEBUG(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_COOKIE");
+        LOG4CXX_TRACE(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_COOKIE");
         pthread_mutex_lock(&CURL_LOCK_DATA_COOKIE_MUTEX);
         break;
     case CURL_LOCK_DATA_DNS:
@@ -495,12 +495,12 @@ void DataStreamHandler::lockCallback(CURL *handle, curl_lock_data data,
         pthread_mutex_lock(&CURL_LOCK_DATA_DNS_MUTEX);
         break;
     case CURL_LOCK_DATA_SSL_SESSION:
-        LOG4CXX_DEBUG(xmlDataStreamHlrLog,
+        LOG4CXX_TRACE(xmlDataStreamHlrLog,
                 "Locking CURL_LOCK_DATA_SSL_SESSION");
         pthread_mutex_lock(&CURL_LOCK_DATA_SSL_SESSION_MUTEX);
         break;
     case CURL_LOCK_DATA_CONNECT:
-        LOG4CXX_DEBUG(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_CONNECT");
+        LOG4CXX_TRACE(xmlDataStreamHlrLog, "Locking CURL_LOCK_DATA_CONNECT");
         pthread_mutex_lock(&CURL_LOCK_DATA_CONNECT_MUTEX);
         break;
     default:
