@@ -772,7 +772,13 @@ bool XmlReader::parse(const XmlInputSource &input)
     {
         LOG4CXX_DEBUG(xmlXmlReaderLog,
                 "Trying to read " << bufsize << " bytes");
+        try {
         bytes_read = is->readBytes(buffer, bufsize);
+        } catch(XmlError e) {
+            m_sawError = true;
+            setLastError(new XmlError(e));
+            return false;
+        }
 
         if (bytes_read < 0)
         {

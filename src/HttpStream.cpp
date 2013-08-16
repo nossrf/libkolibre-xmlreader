@@ -32,6 +32,9 @@
 #include "HttpStream.h"
 #include <log4cxx/logger.h>
 
+
+#include "XmlError.h"
+
 // create logger which will become a child to logger kolibre.xmlreader
 log4cxx::LoggerPtr xmlHttpStreamLog(
         log4cxx::Logger::getLogger("kolibre.xmlreader.httpstream"));
@@ -733,7 +736,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                         mErrorCode = CONNECT_FAILED;
                         LOG4CXX_ERROR(xmlHttpStreamLog,
                                 "%Got redirect but no new location");
-                        //throw(XmlError(XML_FROM_HTTP, httpcode, mErrorMsg));
+                        throw(XmlError(XML_FROM_HTTP, httpcode, mErrorMsg));
                     }
                     break;
 
@@ -750,7 +753,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                     mErrorMsg = getHttpMsg(httpcode);
                     mErrorCode = ACCESS_DENIED;
                     LOG4CXX_ERROR(xmlHttpStreamLog, "HTTP Error " << httpcode);
-                    //throw(XmlError(XML_FROM_IO, XML_IO_EACCES, mErrorMsg));
+                    throw(XmlError(XML_FROM_IO, XML_IO_EACCES, mErrorMsg));
                     break;
 
                 case 400: // Bad request
@@ -759,7 +762,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                     mErrorMsg = getHttpMsg(httpcode);
                     mErrorCode = NOT_FOUND;
                     LOG4CXX_ERROR(xmlHttpStreamLog, "HTTP Error " << httpcode);
-                    //throw(XmlError(XML_FROM_IO, XML_IO_ENOENT, mErrorMsg));
+                    throw(XmlError(XML_FROM_IO, XML_IO_ENOENT, mErrorMsg));
                     break;
 
                 default:
@@ -767,7 +770,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                     LOG4CXX_ERROR(xmlHttpStreamLog, "HTTP Error " << httpcode);
                     mErrorMsg = getHttpMsg(httpcode);
                     mErrorCode = NOT_FOUND;
-                    //throw(XmlError(XML_FROM_IO, XML_IO_EIO, mErrorMsg));
+                    throw(XmlError(XML_FROM_IO, XML_IO_EIO, mErrorMsg));
                     break;
 
                 }
@@ -778,7 +781,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = NOT_FOUND;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_IO, XML_IO_ENOENT, mErrorMsg));
+                throw(XmlError(XML_FROM_IO, XML_IO_ENOENT, mErrorMsg));
                 break;
 
             case CURLE_UNSUPPORTED_PROTOCOL:
@@ -786,7 +789,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = CONNECT_FAILED;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
+                throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
                 break;
 
             case CURLE_COULDNT_RESOLVE_HOST:
@@ -795,7 +798,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = CONNECT_FAILED;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
+                throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
                 break;
 
             case CURLE_COULDNT_CONNECT:
@@ -803,7 +806,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = CONNECT_FAILED;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
+                throw(XmlError(XML_FROM_IO, XML_IO_EFAULT, mErrorMsg));
                 break;
 
             case CURLE_RECV_ERROR:
@@ -811,7 +814,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = READ_FAILED;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_IO, XML_IO_EIO, mErrorMsg));
+                throw(XmlError(XML_FROM_IO, XML_IO_EIO, mErrorMsg));
                 break;
 
             default:
@@ -819,7 +822,7 @@ int HttpStream::readBytes(char* const toFill, const unsigned int maxToRead)
                 mErrorMsg = curl_easy_strerror(msg->data.result);
                 mErrorCode = READ_FAILED;
                 LOG4CXX_ERROR(xmlHttpStreamLog, "CURL Error " << mErrorMsg);
-                //throw(XmlError(XML_FROM_HTTP, msg->data.result, mErrorMsg));
+                throw(XmlError(XML_FROM_HTTP, msg->data.result, mErrorMsg));
                 break;
             }
         }
