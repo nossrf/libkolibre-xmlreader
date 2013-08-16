@@ -87,7 +87,7 @@ private:
     bool bTidyFlag;
 
     // zLib stuff
-    z_stream *c_stream;
+    z_stream c_stream;
     char c_stream_buffer[Z_CHUNK_SIZE]; // Temp output buffer
     static const char dictionary[];
 
