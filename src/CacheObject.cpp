@@ -385,9 +385,9 @@ int CacheObject::readBytes(const char *buffer, const size_t bytes)
         LOG4CXX_TRACE(xmlCacheObjLog,
                 "Inflate status after: " << " avail_in: " << &c_stream.avail_in << " bytes," << " avail_out: " << c_stream.avail_out << " bytes");
 
-        if (&c_stream.msg)
+        if (c_stream.msg)
             LOG4CXX_DEBUG(xmlCacheObjLog,
-                    "Message from decoder: " << &c_stream.msg);
+                    "Message from decoder: " << c_stream.msg);
 
         switch (err)
         {
