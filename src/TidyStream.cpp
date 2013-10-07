@@ -24,6 +24,8 @@
 #include "CacheObject.h"
 #include "TidyStream.h"
 
+#include "XmlError.h"
+
 #include <log4cxx/logger.h>
 
 // create logger which will become a child to logger kolibre.xmlreader
@@ -115,7 +117,13 @@ int TidyStream::readBytes(char* const toFill, const unsigned int maxToRead)
         break;
 
     case PASSTROUGH:
-        fBytes = inStream->readBytes(toFill, maxToRead);
+        try {
+            fBytes = inStream->readBytes(toFill, maxToRead);
+        } catch(XmlError e) {
+            LOG4CXX_ERROR(xmlTidyStreamLog,
+                "XmlError was thrown from instream: " << e.code() << ": " << e.getMessage() );
+            fBytes = 0;
+        }
 
         // On error propagate
         if (fBytes < 0)
@@ -171,7 +179,14 @@ bool TidyStream::Perform()
 
         do
         {
-            bytesRead = inStream->readBytes(buf, 4096);
+            try {
+                bytesRead = inStream->readBytes(buf, 4096);
+            } catch(XmlError e) {
+                LOG4CXX_ERROR(xmlTidyStreamLog,
+                "XmlError was thrown from instream: " << e.code() << ": " << e.getMessage());
+                bytesRead = 0;
+            }
+
             if (bytesRead < 0)
             {
                 LOG4CXX_WARN(xmlTidyStreamLog,
